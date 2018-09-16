@@ -30,8 +30,6 @@ class DNA_Stats:
 	def break_integer(I,M,n,printing='no'):
 		'''Divide an integer (I) into n integer parts, taking out the part (M) as the largest of the fractions. All other fractions should be =< M. If the method is called outright, and the results should be printed to screen, set kwarg 'printing' to 'yes'. The method will check the directory 'precalc_split' to see if the calculation has been done before, and if not add the results to a file there'''
 
-#		t_start = time.clock()
-
 		try:
 			with open('precalc_split/V_'+str(n)+'_N_'+str(I),'r') as f_in:
 				for row in f_in:
@@ -45,15 +43,12 @@ class DNA_Stats:
 		count, nrep = 1,0
 		while count<=n:
 			for ii in np.flip(range(m))+1:
-#				print nrep, count,r,m,ii,comp,a, 'V_'+str(n-count+1)+'_N_'+str(r)
 				if r>4 and n-count>4:
 					try:
 						with open('precalc_split/V_'+str(n-count+1)+'_N_'+str(r),'r') as f_in:
-#							print 'hello there'
 							for row in f_in:
 								row_ = json.loads(row)[1:]
 								for el in row_:
-#									print comp[count-2], el, el[0],type(el[0])
 									if el[0]<=comp[count-2]:
 										a += [comp[:count-1] + el]
 							if not row_[-1][0]>comp[count-2]:
@@ -72,14 +67,12 @@ class DNA_Stats:
 					m = ii
 					break
 			else:
-#				print 'hello'
 				if count == 1:
 					break
 				count += -1
 				r+=comp[count-1]
 				m = a[-1][count-1]-1
 				nrep += 1
-#				print nrep, count, r, m, np.flip(range(m))+1
 			if count==n+1:
 				if sum(comp)==I and comp!=comp_prev:# not in a:
 					a += [comp[:]]
@@ -194,37 +187,4 @@ class DNA_Stats:
 		ax.legend(loc='lower right')
 		if not name: name = 'P_Finding_{}_in_{}.pdf'.format(V,N_max)
 		plt.savefig('figures/'+name)
-
-
-
-##Test runs:
-#t_begin = time.clock()
-
-#DNA_Stats().find_probability()
-#DNA_Stats.break_integer(22,16,7,printing='yes')
-#DNA_Stats.break_integer(23,17,7,printing='yes')
-#DNA_Stats.break_integer(42,35,8,printing='yes')
-#DNA_Stats(V=5,N=10).find_probability(printing='yes')
-#DNA_Stats(V=9,N=60).find_probability_old(printing='yes')
-#DNA_Stats(V=50,N=384).find_probability(printing='yes')
-#t_now = time.clock()-t_start; print datetime.timedelta(seconds=t_now)
-#DNA_Stats(V=50,N=500).find_probability(printing='yes')
-#t_now = time.clock()-t_start; print datetime.timedelta(seconds=t_now)
-#DNA_Stats(V=5,N=10).mc_approx()
-
-#DNA_Stats(V=1,N=1).make_figure(V=10,N=100)
-#DNA_Stats(V=1,N=1).make_figure(V=10,N_max=100,mc='yes')
-
-#DNA_Stats(V=1,N=1).mc_alpha(V=10,N_start=69)
-
-#t_now = time.clock()-t_begin; print 'Finished in: ', datetime.timedelta(seconds=t_now)
-
-#for ii in range(12)[2:]:
-#	for jj in range(80)[1:]:
-#		DNA_Stats(V=ii,N=jj).find_probability()
-#		t_now = time.clock()-t_begin; print 'Finished V={} N={} in: '.format(ii,jj), datetime.timedelta(seconds=t_now)
-
-#t_now = time.clock()-t_begin; print 'Finished in: ', datetime.timedelta(seconds=t_now)
-
-
 
