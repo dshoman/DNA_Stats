@@ -1,0 +1,3 @@
+# Ignore precalculated values: these are only useful to speed up the calulation, not required (and quite big)
+*
+!.gitignore
